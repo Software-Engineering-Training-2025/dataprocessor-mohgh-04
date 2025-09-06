@@ -1,9 +1,20 @@
 package org.example.dataprocessor.enums;
 
-public enum OutputType {
-    /** Print "Result = <value>" to stdout */
-    CONSOLE,
+import org.example.dataprocessor.strategies.output.*;
 
-    /** Write "Result = <value>" to target/result.txt (overwrite, create dirs) */
-    TEXT_FILE
+public enum OutputType {
+    CONSOLE {
+        @Override
+        public OutputStrategy getStrategy() {
+            return new ConsoleOutput();
+        }
+    },
+    TEXT_FILE {
+        @Override
+        public OutputStrategy getStrategy() {
+            return new TextFileOutput();
+        }
+    };
+
+    public abstract OutputStrategy getStrategy();
 }
