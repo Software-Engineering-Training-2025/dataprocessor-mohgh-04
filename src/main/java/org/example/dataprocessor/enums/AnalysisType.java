@@ -1,17 +1,38 @@
 package org.example.dataprocessor.enums;
+
+import org.example.dataprocessor.strategies.analysis.*;
+
 public enum AnalysisType {
-    /** Arithmetic average; empty -> NaN */
-    MEAN,
+    MEAN {
+        @Override
+        public AnalysisStrategy getStrategy() {
+            return new MeanAnalysis();
+        }
+    },
+    MEDIAN {
+        @Override
+        public AnalysisStrategy getStrategy() {
+            return new MedianAnalysis();
+        }
+    },
+    STD_DEV {
+        @Override
+        public AnalysisStrategy getStrategy() {
+            return new StdDevAnalysis();
+        }
+    },
+    P90_NEAREST_RANK {
+        @Override
+        public AnalysisStrategy getStrategy() {
+            return new P90NearestRankAnalysis();
+        }
+    },
+    TOP3_FREQUENT_COUNT_SUM {
+        @Override
+        public AnalysisStrategy getStrategy() {
+            return new Top3FrequentCountSumAnalysis();
+        }
+    };
 
-    /** Median; even -> average of two middles; empty -> NaN */
-    MEDIAN,
-
-    /** Population standard deviation (divide by N); empty -> NaN */
-    STD_DEV,
-
-    /** 90th percentile by nearest-rank: rank = ceil(0.90 * N) on sorted asc (1-based); empty -> NaN */
-    P90_NEAREST_RANK,
-
-    /** Sum of top-3 frequency counts (order by count desc, tiebreak by value asc); empty -> 0.0 */
-    TOP3_FREQUENT_COUNT_SUM
+    public abstract AnalysisStrategy getStrategy();
 }

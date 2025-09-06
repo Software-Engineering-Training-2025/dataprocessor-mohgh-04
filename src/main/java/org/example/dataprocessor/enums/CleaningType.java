@@ -1,9 +1,20 @@
 package org.example.dataprocessor.enums;
 
-public enum CleaningType {
-    /** Drop all values < 0 */
-    REMOVE_NEGATIVES,
+import org.example.dataprocessor.strategies.cleaning.*;
 
-    /** Replace all values < 0 with 0 */
-    REPLACE_NEGATIVES_WITH_ZERO
+public enum CleaningType {
+    REMOVE_NEGATIVES {
+        @Override
+        public CleaningStrategy getStrategy() {
+            return new RemoveNegativesCleaning();
+        }
+    },
+    REPLACE_NEGATIVES_WITH_ZERO {
+        @Override
+        public CleaningStrategy getStrategy() {
+            return new ReplaceNegativesWithZeroCleaning();
+        }
+    };
+
+    public abstract CleaningStrategy getStrategy();
 }
